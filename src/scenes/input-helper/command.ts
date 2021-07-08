@@ -8,7 +8,6 @@
 
 import { Dino } from '../../objects/Dino';
 import { Command } from './command.interface';
-import { GameObject } from './gameobject';
 
 // export class PauseCommand implements Command {
 //   private currentScene: Phaser.Scene;

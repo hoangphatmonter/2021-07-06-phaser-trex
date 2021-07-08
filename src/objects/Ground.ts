@@ -9,7 +9,7 @@ export class Ground extends Phaser.GameObjects.TileSprite {
         // image
         this.setOrigin(0, 0);
 
-        this.scene.physics.world.enable(this);
+        this.scene.physics.world.enable(this);      // assign body to this.body
         this.body.setSize(this.w, this.height / 2);
         this.body.offset.y = this.height;
         this.body.immovable = true;
