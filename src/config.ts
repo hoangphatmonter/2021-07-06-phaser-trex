@@ -1,5 +1,5 @@
 import { BootScene } from './scenes/BootScene';
-// import { GameScene } from './scenes/game-scene';
+import { GameScene } from './scenes/GameScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
@@ -9,14 +9,15 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     height: 600,
     type: Phaser.AUTO,
     parent: 'game',
-    scene: [BootScene, MainMenuScene/*, GameScene*/],
+    scene: [BootScene, MainMenuScene, GameScene],
     input: {
         keyboard: true
     },
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 }
+            debug: true,
+            gravity: { y: 0 }
         }
     },
     backgroundColor: '#98d687',

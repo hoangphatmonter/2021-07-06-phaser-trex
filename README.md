@@ -4,3 +4,4 @@
 - [Load file pack](https://phaser.io/examples/v3/view/loader/file-pack/load-file-pack)
 - [Phaser](https://phaser.io/docs/2.6.2/Phaser.Loader.html#onLoadComplete)
 - [PhotonStorm](https://photonstorm.github.io/phaser3-docs/Phaser.Loader.LoaderPlugin.html)
+- [KeyBoard Events](https://rexrainbow.github.io/phaser3-rex-notes/docs/site/keyboardevents/), [KeyBoard](https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html)

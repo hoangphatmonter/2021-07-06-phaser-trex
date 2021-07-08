@@ -3,7 +3,6 @@ import { IImageConstructor } from "../interfaces/image.interface";
 export class Dino extends Phaser.GameObjects.Image {
     body!: Phaser.Physics.Arcade.Body;
 
-    private jumpKey!: Phaser.Input.Keyboard.Key;
     private isGround: boolean;
 
     private isDead!: boolean;
@@ -23,26 +22,26 @@ export class Dino extends Phaser.GameObjects.Image {
         this.isDead = false;
 
         this.scene.physics.world.enable(this);
-        this.body.setGravityY(1000);
-        this.body.setSize(17, 12);
-        this.body.setCollideWorldBounds(true);
+        this.body.setGravityY(1500);
+        this.body.setSize(17, 46);
+        this.body.setCollideWorldBounds(true);  // a bounds around worlds
+        // this.body.bounce.setTo(0.9, 0.9)
 
-        this.jumpKey = this.scene.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.SPACE
-        );
         this.isGround = true;
 
         this.scene.add.existing(this);
     }
 
-    update(): void {
-        if (this.jumpKey.isDown && this.isGround) {
-            this.body.setVelocityY(-350);
-            this.isGround = false;
-        }
-
-        if (this.y + this.height >= this.scene.sys.canvas.height) {
+    override update(time: number, delta: number): void {
+        if (this.y + this.displayHeight >= this.scene.sys.canvas.height) {
             this.isGround = true;
+        }
+    }
+    public jump(): void {
+        if (this.isGround) {
+            this.body.setVelocityY(-750);
+            this.y -= 10;   // stop update being set ground true after this function
+            this.isGround = false;
         }
     }
 }
