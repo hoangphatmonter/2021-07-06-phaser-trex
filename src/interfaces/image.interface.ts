@@ -3,5 +3,7 @@ export interface IImageConstructor {
     x: number;
     y: number;
     texture: string;
+    w?: number;
+    h?: number;
     frame?: string | number;
 }

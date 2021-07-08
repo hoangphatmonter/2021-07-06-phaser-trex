@@ -63,11 +63,29 @@ import { GameObject } from './gameobject';
 export class JumpCommand implements Command {
   constructor(
     private dino: Dino
-  ) {
-    console.log(dino)
-  }
+  ) { }
 
   public execute(): void {
     this.dino.jump();
+  }
+}
+
+export class CouchCommand implements Command {
+  constructor(
+    private dino: Dino
+  ) { }
+
+  public execute(): void {
+    this.dino.couch();
+  }
+}
+
+export class UnCouchCammand implements Command {
+  constructor(
+    private dino: Dino
+  ) { }
+
+  public execute(): void {
+    this.dino.unCouch();
   }
 }

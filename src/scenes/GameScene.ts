@@ -1,7 +1,7 @@
 import { VoidExpression } from "../../node_modules/typescript/lib/typescript";
 import { Dino } from "../objects/Dino";
 import { Ground } from "../objects/Ground";
-import { JumpCommand } from "./input-helper/command";
+import { CouchCommand, JumpCommand, UnCouchCammand } from "./input-helper/command";
 import { InputHelper } from "./input-helper/input-helper";
 
 export class GameScene extends Phaser.Scene {
@@ -35,7 +35,13 @@ export class GameScene extends Phaser.Scene {
         this.dino = new Dino({ scene: this, x: 50, y: 100, texture: 'trex', frame: 'dino/idle/0001.png' });
         // set jump for dino
         this.inputHelperInstance.setJumpCommand(new JumpCommand(this.dino));
+        this.inputHelperInstance.setCouchCommand(new CouchCommand(this.dino));
+        this.inputHelperInstance.setUnCouchCommand(new UnCouchCammand(this.dino));
 
+        this.ground = new Ground({ scene: this, x: 0, y: this.sys.canvas.height - 20, texture: 'trex', frame: 'ground/0001.png', w: this.sys.canvas.width, h: 13 });
+
+        // add collider between dino and ground
+        this.physics.add.collider(this.dino, this.ground);
     }
 
     update(time: number, delta: number): void {
@@ -43,6 +49,8 @@ export class GameScene extends Phaser.Scene {
         this.evaluateCommands();
         // update dino
         this.dino.update(time, delta);
+        // update ground
+        this.ground.update(time, delta);
     }
 
     evaluateCommands(): void {
@@ -52,6 +60,8 @@ export class GameScene extends Phaser.Scene {
 
             if (cmd instanceof JumpCommand)
                 console.log('jump');
+            else if (cmd instanceof CouchCommand)
+                console.log('couch');
         })
     }
 }

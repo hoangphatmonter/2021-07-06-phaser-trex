@@ -17,6 +17,8 @@ export class InputHelper {
   // private pauseScene!: Command;
   // private pointerMoved!: Command;
   private jump!: Command;
+  private couch!: Command;
+  private unCouch!: Command;
 
   // Key
   private s: Input.Keyboard.Key;
@@ -55,6 +57,14 @@ export class InputHelper {
     this.jump = command;
   }
 
+  public setCouchCommand(command: Command): void {
+    this.couch = command;
+  }
+
+  public setUnCouchCommand(command: Command): void {
+    this.unCouch = command;
+  }
+
   /**
    * Main function of the input helper
    * Returns commands if corresponding key is pressed
@@ -78,13 +88,13 @@ export class InputHelper {
     // ) {
     //   return this.pointerMoved;
     // } else 
-    if (
-      Phaser.Input.Keyboard.JustDown(
-        this.space
-      ) || Phaser.Input.Keyboard.JustDown(this.w)
-    ) {
+    if (Phaser.Input.Keyboard.JustDown(this.space) ||
+      Phaser.Input.Keyboard.JustDown(this.w))
       listOfCmd.push(this.jump);
-    }
+    else if (Phaser.Input.Keyboard.JustDown(this.s))
+      listOfCmd.push(this.couch);
+    else if (Phaser.Input.Keyboard.JustUp(this.s))
+      listOfCmd.push(this.unCouch);
 
     return listOfCmd;
   }

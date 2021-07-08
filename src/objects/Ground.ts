@@ -1,22 +1,23 @@
 import { IImageConstructor } from "../interfaces/image.interface";
 
-export class Ground extends Phaser.GameObjects.Image {
-    body!: Phaser.Physics.Arcade.Body;
+export class Ground extends Phaser.GameObjects.TileSprite {
+    body!: Phaser.Physics.Arcade.StaticBody;
 
     constructor(aParams: IImageConstructor) {
-        super(aParams.scene, aParams.x, aParams.y, aParams.texture, aParams.frame);
+        super(aParams.scene, aParams.x, aParams.y, aParams.w!, aParams.h!, aParams.texture, aParams.frame);
 
         // image
         this.setOrigin(0, 0);
 
         this.scene.physics.world.enable(this);
-        this.body.allowGravity = false;
-        this.body.setSize(17, 12);
+        this.body.setSize(this.w, this.height / 2);
+        this.body.offset.y = this.height;
+        this.body.immovable = true;
 
         this.scene.add.existing(this);
     }
 
-    update(): void {
-
+    update(time: number, delta: number): void {
+        this.tilePositionX += 100 * delta / 1000;
     }
 }
