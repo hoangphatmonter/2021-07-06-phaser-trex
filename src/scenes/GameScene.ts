@@ -1,5 +1,6 @@
-import { VoidExpression } from "../../node_modules/typescript/lib/typescript";
-import { BirdCactusFactory, EnemyFactory } from "../factories/EnemyFactory";
+import { BirdCactusFactory } from "../factories/EnemyFactory";
+import { CloudFactory } from "../factories/EnvironmentFactory";
+import { Cloud } from "../objects/Cloud";
 import { Dino } from "../objects/Dino";
 import { Enemy } from "../objects/enemies/Enemy";
 import { Ground } from "../objects/Ground";
@@ -13,8 +14,11 @@ export class GameScene extends Phaser.Scene {
 
     private enemyFactory!: BirdCactusFactory;
     private enemies!: Phaser.GameObjects.Group;
+    private cloudFactory!: CloudFactory;
+    private clouds!: Phaser.GameObjects.Group;
 
-    private spawnTime!: number;
+    private enemySpawnTime!: number;
+    private cloudSpawnTime!: number;
 
     //Input helper
     private inputHelperInstance!: InputHelper;
@@ -33,14 +37,16 @@ export class GameScene extends Phaser.Scene {
         if (!this.registry.has('highscore')) {
             this.registry.set('highscore', 0);
         }
-        this.spawnTime = this.genCacTime();
 
         this.inputHelperInstance = new InputHelper(this);
 
+        this.enemySpawnTime = this.genCacTime();
         this.enemyFactory = new BirdCactusFactory();
         this.enemies = this.add.group({ runChildUpdate: true });
 
-
+        this.cloudSpawnTime = this.genCacTime();
+        this.cloudFactory = new CloudFactory();
+        this.clouds = this.add.group({ runChildUpdate: true });
     }
 
     create(): void {
@@ -75,25 +81,11 @@ export class GameScene extends Phaser.Scene {
         this.dino.update(time, delta);
         // update ground
         this.ground.update(time, delta);
-        // spawn enemies
-        this.spawnTime -= delta;
-        if (this.spawnTime < 0) {
-            let newEnemy = this.enemyFactory.create({ scene: this, x: this.sys.canvas.width, y: 500 })
-            this.enemies.add(newEnemy);
 
-            this.spawnTime = this.genCacTime();
-        }
-        // delete enemies if out of scene
-        for (let i = 0; i < this.enemies.getLength(); i++) {
-            let enemy = this.enemies.getChildren()[i];
-            if (enemy instanceof Enemy) {
+        this.updateEnemies(delta);
 
-                if (enemy.outOfScene()) {
-                    this.enemies.remove(enemy, true, true);
-                    i--;
-                }
-            }
-        }
+        this.updateCloud(delta);
+
         this.registry.values.score += 1;
         this.scoreText.setText(`Score: ${this.registry.values.score} Highscore: ${this.registry.values.highscore}`);
     }
@@ -125,5 +117,48 @@ export class GameScene extends Phaser.Scene {
     }
     processCallBack(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, obj: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
         return true;
+    }
+
+    updateEnemies(delta: number) {
+        // spawn enemies
+        this.enemySpawnTime -= delta;
+        if (this.enemySpawnTime < 0) {
+            let newEnemy = this.enemyFactory.create({ scene: this, x: this.sys.canvas.width, y: 500 })
+            this.enemies.add(newEnemy);
+
+            this.enemySpawnTime = this.genCacTime();
+        }
+        // delete enemies if out of scene
+        for (let i = 0; i < this.enemies.getLength(); i++) {
+            let enemy = this.enemies.getChildren()[i];
+            if (enemy instanceof Enemy) {
+
+                if (enemy.outOfScene()) {
+                    this.enemies.remove(enemy, true, true);
+                    i--;
+                }
+            }
+        }
+    }
+    updateCloud(delta: number) {
+        // spawn cloud
+        this.cloudSpawnTime -= delta;
+        if (this.cloudSpawnTime < 0) {
+            let newCloud = this.cloudFactory.create({ scene: this });
+            this.clouds.add(newCloud);
+
+            this.cloudSpawnTime = this.genCacTime();
+        }
+        // delete cloud
+        for (let i = 0; i < this.clouds.getLength(); i++) {
+            let cloud = this.clouds.getChildren()[i];
+            if (cloud instanceof Cloud) {
+
+                if (cloud.outOfScene()) {
+                    this.clouds.remove(cloud, true, true);
+                    i--;
+                }
+            }
+        }
     }
 }
