@@ -2,6 +2,7 @@ export class MainMenuScene extends Phaser.Scene {
     private startKey!: Phaser.Input.Keyboard.Key;
     private titleBitmapText!: Phaser.GameObjects.BitmapText;
     private playBitmapText!: Phaser.GameObjects.BitmapText;
+    private startBtn!: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: 'MainMenuScene' });
@@ -15,6 +16,17 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     create(): void {
+        //restart button
+        this.startBtn = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2 + 100, 'trex', 'button/play.png');
+        this.startBtn.displayWidth = 100;
+        this.startBtn.displayHeight = 50;
+
+        this.startBtn.setInteractive();
+        this.startBtn.on('pointerdown', () => {
+            // this.scene.stop();
+            this.scene.start('GameScene');  // shutdown this scene and run choosen one
+        });
+
         this.titleBitmapText = this.add.bitmapText(
             0,
             200,

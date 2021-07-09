@@ -72,6 +72,7 @@ export class Dino extends Phaser.GameObjects.Sprite {
     public jump(): void {
         if (this.body.onFloor()) {
             this.body.setVelocityY(-750);
+            this.scene.sound.play('jump');
         }
     }
     // functions call by input handler

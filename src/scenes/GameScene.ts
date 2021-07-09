@@ -50,12 +50,15 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(): void {
+        // this.add.image(0, this.sys.canvas.height - 300, 'trex', 'background/ground.png').setOrigin(0, 1);
+
         this.scoreText = this.add
             .bitmapText(
-                this.sys.canvas.width / 2 - 14,
+                this.sys.canvas.width / 2,
                 30,
                 'font',
-                `Score: ${this.registry.values.score} Highscore: ${this.registry.values.highscore}`
+                `S: ${this.registry.values.score} HS: ${this.registry.values.highscore}`,
+                20
             )
             .setDepth(2).setOrigin(0.5, 0.5);
 
@@ -87,7 +90,7 @@ export class GameScene extends Phaser.Scene {
         this.updateCloud(delta);
 
         this.registry.values.score += 1;
-        this.scoreText.setText(`Score: ${this.registry.values.score} Highscore: ${this.registry.values.highscore}`);
+        this.scoreText.setText(`S: ${this.registry.values.score} HS: ${this.registry.values.highscore}`);
     }
 
     evaluateCommands(): void {
@@ -95,8 +98,9 @@ export class GameScene extends Phaser.Scene {
         commands.forEach(cmd => {
             cmd.execute();
 
-            if (cmd instanceof JumpCommand)
+            if (cmd instanceof JumpCommand) {
                 console.log('jump');
+            }
             else if (cmd instanceof CouchCommand)
                 console.log('couch');
         })
@@ -110,6 +114,7 @@ export class GameScene extends Phaser.Scene {
         if (this.registry.values.highscore < this.registry.values.score)
             this.registry.values.highscore = this.registry.values.score;
         this.dino.die();
+        this.sound.play('die');
         this.scene.pause(this);
         this.scene.launch('GameOverScene');
 
