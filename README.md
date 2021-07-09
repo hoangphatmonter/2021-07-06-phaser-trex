@@ -5,3 +5,4 @@
 - [Phaser](https://phaser.io/docs/2.6.2/Phaser.Loader.html#onLoadComplete)
 - [PhotonStorm](https://photonstorm.github.io/phaser3-docs/Phaser.Loader.LoaderPlugin.html)
 - [KeyBoard Events](https://rexrainbow.github.io/phaser3-rex-notes/docs/site/keyboardevents/), [KeyBoard](https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html)
+- [~~Zone~~](https://phaser.discourse.group/t/collision-enter-exit-event/1001/3)

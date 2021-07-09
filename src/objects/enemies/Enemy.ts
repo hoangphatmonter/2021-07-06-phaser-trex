@@ -8,4 +8,9 @@ export class Enemy extends Phaser.GameObjects.Sprite {
     private initTile(): void {
         this.setOrigin(0, 1);
     }
+    public outOfScene() {
+        if (this.displayWidth + this.x < 0)
+            return true;
+        return false;
+    }
 }

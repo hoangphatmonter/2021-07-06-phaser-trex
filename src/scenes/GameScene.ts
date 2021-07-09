@@ -1,6 +1,7 @@
 import { VoidExpression } from "../../node_modules/typescript/lib/typescript";
 import { BirdCactusFactory, EnemyFactory } from "../factories/EnemyFactory";
 import { Dino } from "../objects/Dino";
+import { Enemy } from "../objects/enemies/Enemy";
 import { Ground } from "../objects/Ground";
 import { CouchCommand, JumpCommand, UnCouchCammand } from "./input-helper/command";
 import { InputHelper } from "./input-helper/input-helper";
@@ -40,9 +41,9 @@ export class GameScene extends Phaser.Scene {
                 this.sys.canvas.width / 2 - 14,
                 30,
                 'font',
-                this.registry.values.score
+                `Score: ${this.registry.values.score} Highscore: 0`
             )
-            .setDepth(2);
+            .setDepth(2).setOrigin(0.5, 0.5);
 
         this.dino = new Dino({ scene: this, x: 50, y: 100, texture: 'trex', frame: 'dino/idle/0001.png' });
         // set jump for dino
@@ -55,7 +56,7 @@ export class GameScene extends Phaser.Scene {
         // add collider between dino and ground
         this.physics.add.collider(this.dino, this.ground);
         // add collider with enemy
-        this.physics.add.collider(this.dino, this.enemies);  // default will make it body visible
+        this.physics.add.collider(this.dino, this.enemies, this.collisionCallback, this.processCallBack, this);  // default will make it body visible
     }
 
     update(time: number, delta: number): void {
@@ -68,9 +69,23 @@ export class GameScene extends Phaser.Scene {
         // spawn enemies
         this.spawnTime -= delta;
         if (this.spawnTime < 0) {
-            this.enemies.add(this.enemyFactory.create({ scene: this, x: this.sys.canvas.width, y: 500 }));
+            let newEnemy = this.enemyFactory.create({ scene: this, x: this.sys.canvas.width, y: 500 })
+            this.enemies.add(newEnemy);
+
             this.spawnTime = this.genCacTime();
         }
+        // delete enemies if out of scene
+        for (let i = 0; i < this.enemies.getLength(); i++) {
+            let enemy = this.enemies.getChildren()[i];
+            if (enemy instanceof Enemy) {
+                if (enemy.outOfScene()) {
+                    this.enemies.remove(enemy, true, true);
+                    i--;
+                }
+            }
+        }
+        this.registry.values.score += 1;
+        this.scoreText.setText(`Score: ${this.registry.values.score} Highscore: 0`);
     }
 
     evaluateCommands(): void {
@@ -85,6 +100,12 @@ export class GameScene extends Phaser.Scene {
         })
     }
     genCacTime() {
-        return (Math.floor(Math.random() * 2) + 2 - 100 / 100) * 1000; // 1-4s
+        return (Math.floor(Math.random() * 2) + 3 - 100 / 100) * 1000; // 3-4s
+    }
+    collisionCallback(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, obj: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
+        console.log('Collide with the Pandas!');
+    }
+    processCallBack(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, obj: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
+        return true;
     }
 }

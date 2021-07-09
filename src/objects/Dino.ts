@@ -22,7 +22,7 @@ export class Dino extends Phaser.GameObjects.Sprite {
         this.isDead = false;
 
         this.scene.physics.world.enable(this);
-        this.body.setGravityY(1500);
+        this.body.setGravityY(2000);
         this.body.setSize(17);
         this.body.setCollideWorldBounds(true);  // a bounds around worlds
         // this.body.bounce.setTo(0.9, 0.9)
@@ -80,7 +80,7 @@ export class Dino extends Phaser.GameObjects.Sprite {
     public couch(): void {
         if (!this.isCouch) {
             if (!this.body.onFloor())   // if on air
-                this.body.velocity.y += 100;
+                this.body.velocity.y += 500;
             this.isCouch = true;
         }
     }
