@@ -6,3 +6,8 @@
 - [PhotonStorm](https://photonstorm.github.io/phaser3-docs/Phaser.Loader.LoaderPlugin.html)
 - [KeyBoard Events](https://rexrainbow.github.io/phaser3-rex-notes/docs/site/keyboardevents/), [KeyBoard](https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html)
 - [~~Zone~~](https://phaser.discourse.group/t/collision-enter-exit-event/1001/3)
+- [~~Global pause~~](https://phaser.io/examples/v2/arcade-physics/global-pause) (Phaser 2)
+- [Collision Callback](https://phaser.io/examples/v2/arcade-physics/process-callback)
+- [~~Button~~](https://phaser.io/examples/v2/buttons/action-on-click) (Phaser 2)
+- [Scene Controller](https://labs.phaser.io/edit.html?src=src\scenes\tutorial\scene%20controller.js)
+- [Button in phaser 3](https://snowbillr.github.io/blog/2018-07-03-buttons-in-phaser-3/)

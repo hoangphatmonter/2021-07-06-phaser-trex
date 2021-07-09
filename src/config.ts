@@ -1,4 +1,5 @@
 import { BootScene } from './scenes/BootScene';
+import { GameOverScene } from './scenes/GameOverScene';
 import { GameScene } from './scenes/GameScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
 
@@ -9,7 +10,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     height: 600,
     type: Phaser.AUTO,
     parent: 'game',
-    scene: [BootScene, MainMenuScene, GameScene],
+    scene: [BootScene, MainMenuScene, GameScene, GameOverScene],
     input: {
         keyboard: true
     },

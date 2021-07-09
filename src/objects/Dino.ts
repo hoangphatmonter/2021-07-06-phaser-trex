@@ -7,12 +7,6 @@ export class Dino extends Phaser.GameObjects.Sprite {
 
     private isDead!: boolean;
 
-    public getDead(): boolean {
-        return this.isDead;
-    }
-    public setDead(dead: boolean): void {
-        this.isDead = dead;
-    }
     constructor(aParams: IImageConstructor) {
         super(aParams.scene, aParams.x, aParams.y, aParams.texture, aParams.frame);
 
@@ -66,6 +60,10 @@ export class Dino extends Phaser.GameObjects.Sprite {
                 this.body.setSize(17);
             }
         }
+        else if (this.isDead) {
+            this.anims.stop();
+            this.setTexture('trex', 'dino/die/0001.png');
+        }
         else {
             this.anims.stop();
             this.setTexture('trex', 'dino/idle/0001.png');
@@ -86,5 +84,8 @@ export class Dino extends Phaser.GameObjects.Sprite {
     }
     public unCouch(): void {
         this.isCouch = false;
+    }
+    public die(): void {
+        this.isDead = true;
     }
 }

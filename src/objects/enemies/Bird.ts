@@ -21,7 +21,7 @@ export class Bird extends Enemy {
             repeat: -1
         });
         this.play('bird-fly', true);
-        this.body.setSize();
+        this.body.setSize(undefined, this.displayHeight / 2, true);
     }
 
     override update(time: number, delta: number) {

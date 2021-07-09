@@ -21,10 +21,18 @@ export class GameScene extends Phaser.Scene {
 
     constructor() {
         super({ key: 'GameScene' });
+
+    }
+
+    preload() {
+        this.cameras.main.setBackgroundColor(0xffffff);
     }
 
     init(): void {
         this.registry.set('score', 0);
+        if (!this.registry.has('highscore')) {
+            this.registry.set('highscore', 0);
+        }
         this.spawnTime = this.genCacTime();
 
         this.inputHelperInstance = new InputHelper(this);
@@ -41,9 +49,10 @@ export class GameScene extends Phaser.Scene {
                 this.sys.canvas.width / 2 - 14,
                 30,
                 'font',
-                `Score: ${this.registry.values.score} Highscore: 0`
+                `Score: ${this.registry.values.score} Highscore: ${this.registry.values.highscore}`
             )
             .setDepth(2).setOrigin(0.5, 0.5);
+
 
         this.dino = new Dino({ scene: this, x: 50, y: 100, texture: 'trex', frame: 'dino/idle/0001.png' });
         // set jump for dino
@@ -78,6 +87,7 @@ export class GameScene extends Phaser.Scene {
         for (let i = 0; i < this.enemies.getLength(); i++) {
             let enemy = this.enemies.getChildren()[i];
             if (enemy instanceof Enemy) {
+
                 if (enemy.outOfScene()) {
                     this.enemies.remove(enemy, true, true);
                     i--;
@@ -85,7 +95,7 @@ export class GameScene extends Phaser.Scene {
             }
         }
         this.registry.values.score += 1;
-        this.scoreText.setText(`Score: ${this.registry.values.score} Highscore: 0`);
+        this.scoreText.setText(`Score: ${this.registry.values.score} Highscore: ${this.registry.values.highscore}`);
     }
 
     evaluateCommands(): void {
@@ -103,7 +113,15 @@ export class GameScene extends Phaser.Scene {
         return (Math.floor(Math.random() * 2) + 3 - 100 / 100) * 1000; // 3-4s
     }
     collisionCallback(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, obj: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
-        console.log('Collide with the Pandas!');
+        // On game over
+        // update highscore
+        if (this.registry.values.highscore < this.registry.values.score)
+            this.registry.values.highscore = this.registry.values.score;
+        this.dino.die();
+        this.scene.pause(this);
+        this.scene.launch('GameOverScene');
+
+        // this.physics.pause();
     }
     processCallBack(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, obj: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
         return true;
