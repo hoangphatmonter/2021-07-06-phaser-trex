@@ -13,3 +13,4 @@
 - [Button in phaser 3](https://snowbillr.github.io/blog/2018-07-03-buttons-in-phaser-3/)
 - [~~Game scale~~](https://www.youtube.com/watch?v=ZWIZeGAXuSA)
 - [Audio](https://phaser.io/examples/v2/audio/audio-sprite)
+- [Preloading Scene](https://gamedevacademy.org/creating-a-preloading-screen-in-phaser-3/?a=13)
