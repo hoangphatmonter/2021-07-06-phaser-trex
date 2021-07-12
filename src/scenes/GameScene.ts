@@ -37,6 +37,7 @@ export class GameScene extends Phaser.Scene {
         if (!this.registry.has('highscore')) {
             this.registry.set('highscore', 0);
         }
+        this.registry.set('gamespeed', 300);
 
         this.inputHelperInstance = new InputHelper(this);
 
@@ -90,6 +91,7 @@ export class GameScene extends Phaser.Scene {
         this.updateCloud(delta);
 
         this.registry.values.score += 1;
+        this.registry.values.gamespeed += 0.3;
         this.scoreText.setText(`S: ${this.registry.values.score} HS: ${this.registry.values.highscore}`);
     }
 
@@ -106,7 +108,7 @@ export class GameScene extends Phaser.Scene {
         })
     }
     genCacTime() {
-        return (Math.floor(Math.random() * 2) + 3 - 100 / 100) * 1000; // 3-4s
+        return (Math.floor(Math.random() * 2) + 3 - this.registry.values.gamespeed / 300) * 1000; // 3-4s
     }
     collisionCallback(player: Phaser.Types.Physics.Arcade.GameObjectWithBody, obj: Phaser.Types.Physics.Arcade.GameObjectWithBody) {
         // On game over

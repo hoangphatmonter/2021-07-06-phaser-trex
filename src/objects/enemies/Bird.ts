@@ -25,6 +25,6 @@ export class Bird extends Enemy {
     }
 
     override update(time: number, delta: number) {
-        this.x -= 300 * delta / 1000;
+        this.x -= this.scene.registry.values.gamespeed * delta / 1000;
     }
 }

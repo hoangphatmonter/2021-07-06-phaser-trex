@@ -18,6 +18,6 @@ export class Ground extends Phaser.GameObjects.TileSprite {
     }
 
     update(time: number, delta: number): void {
-        this.tilePositionX += 300 * delta / 1000;
+        this.tilePositionX += this.scene.registry.values.gamespeed * delta / 1000;
     }
 }

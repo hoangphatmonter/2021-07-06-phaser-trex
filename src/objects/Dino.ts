@@ -50,7 +50,11 @@ export class Dino extends Phaser.GameObjects.Sprite {
         // }
         // if (this.b)
 
-        if (this.body.onFloor()) {
+        if (this.isDead) {
+            this.anims.stop();
+            this.setTexture('trex', 'dino/die/0001.png');
+        }
+        else if (this.body.onFloor()) {
             if (this.isCouch) {
                 this.play('dino-couch', true);
                 this.body.setSize();
@@ -59,10 +63,6 @@ export class Dino extends Phaser.GameObjects.Sprite {
                 this.play('dino-run', true);
                 this.body.setSize(17);
             }
-        }
-        else if (this.isDead) {
-            this.anims.stop();
-            this.setTexture('trex', 'dino/die/0001.png');
         }
         else {
             this.anims.stop();

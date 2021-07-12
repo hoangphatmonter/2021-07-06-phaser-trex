@@ -14,7 +14,7 @@ export class Cloud extends Phaser.GameObjects.Sprite {
     }
 
     update(time: number, delta: number): void {
-        this.x -= 200 * delta / 1000;
+        this.x -= this.scene.registry.values.gamespeed * 2 / 3 * delta / 1000;
     }
 
     public outOfScene() {
